@@ -21,7 +21,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { AgentImageUpload } from "./agent-image-upload";
+import {  ImageUpload } from "../../../components/image-upload";
 import { AgentHeader } from "./agent-header";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -100,8 +100,8 @@ export const CreateAgentClient = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AgentImageUpload
-                          onChange={(val) => field.onChange(val)}
+                        <ImageUpload
+                          onChange={(val:any) => field.onChange(val)}
                           onRemove={(val) => {
                             field.onChange(val !== field.value);
                           }}

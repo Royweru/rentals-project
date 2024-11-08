@@ -1,4 +1,4 @@
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/","/browse","(/listing/view)(.*)"];
 
 export const authRoute = "/auth"
 

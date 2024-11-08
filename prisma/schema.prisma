@@ -124,9 +124,9 @@ model Listing{
 
 model Amenity{
   id String @id @default(cuid())
-
-  label String
   listingId String
   listing Listing @relation(fields: [listingId],references: [id],onDelete: Cascade)
+
+  label String
   
 }

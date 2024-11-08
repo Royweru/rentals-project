@@ -45,7 +45,7 @@ export const Navbar =  ({
     }, [state])
     
 
-    const isHidden = pathName ==="/auth"||pathName === "/admin"|| pathName ==="/agent/new"
+    const isHidden = pathName ==="/auth"||pathName === "/admin"|| pathName ==="/agent/new"||pathName ==="/listing/new"
 
   return (
       <nav ref={navRef} className={`bg-white w-full top-0 z-20 font-semibold ${isHidden && 'hidden'}`}>

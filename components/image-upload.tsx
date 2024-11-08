@@ -12,7 +12,7 @@ interface ImageUploadProps {
   onRemove: (value: string) => void;
   value: string;
 }
-export const AgentImageUpload: React.FC<ImageUploadProps> = ({
+export const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,
   onRemove,
@@ -34,10 +34,12 @@ export const AgentImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div className=" flex w-full items-center justify-start pl-2 gap-x-3">
        {value &&(
-        
-        <Avatar className=" size-20">
-            <AvatarImage src={value} alt="Avatar"/>
-        </Avatar>
+         <div
+          className=" size-25 rounded-md"
+           style={{background:`url(${value})`}}
+         />
+
+         
        )}
       <CldUploadWidget
        onSuccess={onUpload}
