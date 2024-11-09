@@ -1,6 +1,6 @@
 import { db } from '@/lib/prismadb';
 
-export const getLocations = async () => {
+export const getLocationsWithListings = async () => {
   try {
     const res = await db.location.findMany({
       include: {
@@ -8,7 +8,9 @@ export const getLocations = async () => {
       }
     });
 
-    return  res
+    const locationsWithListings = res.filter((location)=>location.properties.length>0)
+
+    return  locationsWithListings
  
   } catch (error) {
     return null;

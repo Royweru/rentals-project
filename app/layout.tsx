@@ -4,6 +4,9 @@ import { Navbar } from "@/components/navbar";
 import { serverUser } from "@/lib/serveruser";
 import { QueryProvider } from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { getAgent } from "@/lib/getAgent";
+import { getUserRole } from "@/lib/getUserRole";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Apartamenti",
@@ -15,12 +18,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session  = await auth()
   const user = await serverUser();
+  const userRole = await getUserRole()
+  
   return (
     <html lang="en">
       <body className={`antialiased`}>
         <QueryProvider>
-          <Navbar user={user} />
+          <Navbar user={user} userRole = {userRole} />
           {children}
           <Toaster />
         </QueryProvider>

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import * as z from "zod";
 import { Category, Listing, Location, Type } from "@prisma/client";
 import { useForm } from "react-hook-form";
@@ -34,6 +34,7 @@ import {
 import { ListingHeader } from "./listing-header";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/image-upload";
+import { useRouter } from "next/navigation";
 interface CreateListingClientProps {
   categories: Category[] | null;
   types: Type[] | null;
@@ -46,6 +47,7 @@ export const CreateListingClient = ({
   types,
   locations,
 }: CreateListingClientProps) => {
+  const router = useRouter()
   const { mutate, isPending } = useCreateListing();
   const form = useForm<z.infer<typeof CreateListingSchema>>({
     resolver: zodResolver(CreateListingSchema),
@@ -64,10 +66,15 @@ export const CreateListingClient = ({
   });
 
   const onSubmit = (vals: z.infer<typeof CreateListingSchema>) => {
-    // mutate({
-    //   json: vals,
-    // });
-    console.log(vals);
+    mutate({
+      json: vals,
+    },{
+      onSuccess(){
+        form.reset()
+        router.push("/")
+        //Add functonality to redirect to agent dashboard
+      }
+    });
   };
   return (
     <div className=" relative w-full min-h-screen gap-y-4 flex flex-col">
@@ -94,6 +101,7 @@ export const CreateListingClient = ({
                       <FormLabel>Title</FormLabel>
                       <FormControl>
                         <Input
+                          disabled={isPending}
                           placeholder="Enter listing name e.g 1 bedroom near Thiks road"
                           {...field}
                         />
@@ -109,6 +117,7 @@ export const CreateListingClient = ({
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea
+                          disabled={isPending}
                           placeholder="Enter listing description or details e.g 1 bedroom near Thiks road"
                           {...field}
                         />
@@ -132,7 +141,7 @@ export const CreateListingClient = ({
                   name="categoryId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category:</FormLabel>
+                      <FormLabel>Category Id:</FormLabel>
                       <Select
                         disabled={isPending}
                         onValueChange={field.onChange}
@@ -196,7 +205,7 @@ export const CreateListingClient = ({
                   name="typeId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Property type</FormLabel>
+                      <FormLabel>Property type Id:</FormLabel>
                       <Select
                         disabled={isPending}
                         onValueChange={field.onChange}
@@ -207,7 +216,7 @@ export const CreateListingClient = ({
                           <SelectTrigger className="col-span-1">
                             <SelectValue
                               defaultValue={field.value}
-                              placeholder="Select a category"
+                              placeholder="Select a property type"
                             />
                           </SelectTrigger>
                         </FormControl>
@@ -223,43 +232,42 @@ export const CreateListingClient = ({
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   name="amenities"
                   control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Amenities</FormLabel>
-                      <FormDescription
-                        className=" font-semibold font-nunito text-sm
-                       text-stone-400/95 tracking-wide text-accent-desructive"
-                      >
-                        Make sure to separate your different amenities with a
-                        coma , else it will be updated in the database as one
-                        amenity
-                      </FormDescription>
-                      <FormControl>
-                        <Textarea
-                          className="col-span-1"
-                          placeholder="Enter listing amenities"
-                          value={
-                            field.value
-                              ? field.value
-                                  .map((amenity) => amenity.label)
-                                  .join(", ")
-                              : ""
-                          }
-                          onChange={(e) => {
-                            const amenitiesArray = e.target.value
-                              .split(",")
-                              .map((item) => ({ label: item.trim() })) // Creates an array of objects with 'label' key
-                              .filter((amenity) => amenity.label); // Filters out empty strings
-                            field.onChange(amenitiesArray);
-                          }}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const [amenitiesInput, setAmenitiesInput] = useState(
+                      field.value
+                        ? field.value.map((amenity) => amenity.label).join(", ")
+                        : ""
+                    );
+
+                    return (
+                      <FormItem>
+                        <FormLabel>Amenities</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            disabled={isPending}
+                            placeholder="Enter listing amenities, separated by commas"
+                            value={amenitiesInput}
+                            onChange={(e) => setAmenitiesInput(e.target.value)} // Update local state only
+                            onBlur={() => {
+                              const amenitiesArray = amenitiesInput
+                                .split(",")
+                                .map((item) => item.trim())
+                                .filter(Boolean)
+                                .map((label) => ({ label }));
+
+                              field.onChange(amenitiesArray); // Update form field only on blur
+                            }}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    );
+                  }}
                 />
+
                 <FormField
                   name="area"
                   control={form.control}
@@ -268,6 +276,7 @@ export const CreateListingClient = ({
                       <FormLabel>Size in squareKm :</FormLabel>
                       <FormControl>
                         <Input
+                          disabled={isPending}
                           type="number"
                           placeholder=" e.g 2500"
                           {...field}
@@ -283,7 +292,12 @@ export const CreateListingClient = ({
                     <FormItem>
                       <FormLabel>Number of bathrooms</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g 3" {...field} />
+                        <Input
+                          disabled={isPending}
+                          type="number"
+                          placeholder="e.g 3"
+                          {...field}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -292,35 +306,33 @@ export const CreateListingClient = ({
             </CardContent>
           </Card>
           <Card className=" shadow-sm bg-bg-secondary ">
-              <CardHeader>
-                <CardTitle className=" font-semibold text-text-darkblue">
-                   Upload Image
-                </CardTitle>
-                <CardDescription>
-                 Upload an image of your listing
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <FormField
-                  name="thumbnail"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <ImageUpload
-                          onChange={(val) => field.onChange(val)}
-                          onRemove={(val) => {
-                            field.onChange(val !== field.value);
-                          }}
-                          value={field.value || ""}
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
+            <CardHeader>
+              <CardTitle className=" font-semibold text-text-darkblue">
+                Upload Image
+              </CardTitle>
+              <CardDescription>Upload an image of your listing</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                name="thumbnail"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ImageUpload
+                        onChange={(val) => field.onChange(val)}
+                        onRemove={(val) => {
+                          field.onChange(val !== field.value);
+                        }}
+                        value={field.value || ""}
+                        disabled={isPending}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
           <Card>
             <CardHeader>
               <CardTitle className=" text-lg font-semibold text-blue-capri">
@@ -344,6 +356,7 @@ export const CreateListingClient = ({
                       <FormLabel>Purchase price</FormLabel>
                       <FormControl>
                         <Input
+                          disabled={isPending}
                           type="number"
                           placeholder="Enter the purchse price for your house if its on sale e.g 2390000"
                           {...field}
@@ -360,6 +373,7 @@ export const CreateListingClient = ({
                       <FormLabel>Rental price</FormLabel>
                       <FormControl>
                         <Input
+                          disabled={isPending}
                           type="number"
                           placeholder="Enter the rental price for your property if its on rent every month e.g 34000"
                           {...field}
@@ -377,6 +391,7 @@ export const CreateListingClient = ({
               variant={"secondary"}
               size={"lg"}
               type="submit"
+              disabled={isPending}
             >
               Submit
             </Button>

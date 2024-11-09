@@ -4,10 +4,33 @@ import { CreateListingSchema } from "../schemas";
 import { serverUser } from "@/lib/serveruser";
 import { db } from "@/lib/prismadb";
 import { getAgent } from "@/lib/getAgent";
+import { z } from "zod";
 
-const app = new Hono();
-
-export default app.post(
+const app = new Hono()
+.get("/",
+  zValidator("query",z.object({
+    categoryId:z.string().optional(),
+     typeId:z.string().optional(),
+     locationId:z.string().optional()
+  })),
+  async(c)=>{
+    const {categoryId,typeId,locationId} = c.req.valid("query")
+    const res = await db.listing.findMany({
+      where:{
+       locationId,
+       categoryId,
+       typeId
+      },
+      include:{
+        agent:true, 
+        amenities:true,
+        type:true
+      }
+    })
+  return c.json({data:res},200)
+  }
+)
+.post(
   "/",
   zValidator("json", CreateListingSchema),
   async (c) => {
@@ -56,4 +79,6 @@ export default app.post(
     })
    return c.json({data:res},200)
   }
-);
+);;
+
+export default app

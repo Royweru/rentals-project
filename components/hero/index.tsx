@@ -1,9 +1,18 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { SearchBox } from './search-box'
+import { Category, Type,Location, Listing } from '@prisma/client'
 
-export const Hero = () => {
+interface HeroProps{
+  types:Type[]|null,
+  categories:Category[]|null;
+  locations:(
+    Location
+  )[]|null
+}
+export const Hero = ({types,categories,locations}:HeroProps) => {
 
+ 
   const [isMounted,setIsMounted] = useState(false)
 
   useEffect(()=>{
@@ -22,7 +31,11 @@ export const Hero = () => {
                Find your perfect home
                </h3>
            </div>
-           <SearchBox />
+           <SearchBox 
+            types={types}
+            locations={locations}
+            categories={categories}
+           />
        </div>
         </div>
   )

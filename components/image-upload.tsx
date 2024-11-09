@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
-import { Avatar,AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface ImageUploadProps {
   disabled: boolean;
@@ -33,17 +33,14 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   };
   return (
     <div className=" flex w-full items-center justify-start pl-2 gap-x-3">
-       {value &&(
-         <div
-          className=" size-25 rounded-md"
-           style={{background:`url(${value})`}}
-         />
+      {value && (
+        <div
+          className=" relative  size-28 rounded-md  bg-cover bg-center"
+          style={{ background: `url(${value})` }}
+        />
+      )}
 
-         
-       )}
-      <CldUploadWidget
-       onSuccess={onUpload}
-        uploadPreset="rentals">
+      <CldUploadWidget onSuccess={onUpload} uploadPreset="rentals">
         {({ open }) => {
           const onClick = () => {
             open();
@@ -64,4 +61,3 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     </div>
   );
 };
-

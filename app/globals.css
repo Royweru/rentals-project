@@ -11,7 +11,7 @@
 
 body {
   height: 100%;
-  @apply bg-white  font-montserrat
+  @apply bg-white font-montserrat
 }
 
 @layer utilities {

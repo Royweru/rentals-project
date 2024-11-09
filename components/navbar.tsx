@@ -1,5 +1,6 @@
 "use client"
 import { UserButton } from '@/features/auth/_components/user-button'
+import { UserRole } from '@prisma/client'
 import { User } from '@prisma/client'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -8,10 +9,11 @@ import { useEffect, useRef, useState } from 'react'
 // Add this style to your css file
 
 export const Navbar =  ({
-    user
-    
+    user,
+    userRole
 }:{
     user:User|null
+    userRole:UserRole |null
 }) => {
 
   const [state, setState] = useState(false)
@@ -46,6 +48,7 @@ export const Navbar =  ({
     
 
     const isHidden = pathName ==="/auth"||pathName === "/admin"|| pathName ==="/agent/new"||pathName ==="/listing/new"
+    const isAgent = userRole ===UserRole.AGENT
 
   return (
       <nav ref={navRef} className={`bg-white w-full top-0 z-20 font-semibold ${isHidden && 'hidden'}`}>
@@ -83,6 +86,7 @@ export const Navbar =  ({
                             <div className=' items-center justify-center'>
                                 <UserButton 
                                  user={user}
+                                 isAgent = {isAgent}
                                 />
                             </div>
                         ):(
