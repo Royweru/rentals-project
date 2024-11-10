@@ -10,10 +10,14 @@ import { useEffect, useRef, useState } from 'react'
 
 export const Navbar =  ({
     user,
-    userRole
+    userRole,
+    agent
 }:{
     user:User|null
-    userRole:UserRole |null
+    userRole:UserRole |null,
+    agent:{
+        id:string|null
+    }
 }) => {
 
   const [state, setState] = useState(false)
@@ -87,6 +91,7 @@ export const Navbar =  ({
                                 <UserButton 
                                  user={user}
                                  isAgent = {isAgent}
+                                 agent={agent}
                                 />
                             </div>
                         ):(

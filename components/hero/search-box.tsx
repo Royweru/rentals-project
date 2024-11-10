@@ -45,7 +45,7 @@ export const SearchBox = ({ types, categories, locations }: SearchBoxProps) => {
   if (isMedium) {
     return (
       <div
-        className=" relative  rounded-lg bg-white gap-x-1 flex items-end justify-center px-4 py-3 md:px-6 w-[500px] md:w-[650px]
+        className=" relative  rounded-lg bg-white gap-x-1 flex items-center justify-center px-4 py-3 md:px-6 w-[500px] md:w-[650px]
           md:mx-auto lg:w-[750px]"
       >
       
@@ -101,10 +101,10 @@ export const SearchBox = ({ types, categories, locations }: SearchBoxProps) => {
           </select>
         </div>
 
-        <Button className=" font-bold text-white h-full " onClick={onSearch}>
+        <Button className=" font-bold text-white " onClick={onSearch}>
           <FaSearch
             className=" size-4 font-bold
-         text-text-blackgrey mr-2 "
+          mr-2 h-full "
           />
           Search
         </Button>
@@ -166,7 +166,7 @@ export const SearchBox = ({ types, categories, locations }: SearchBoxProps) => {
               </select>
             </div>
 
-            <Button className=" font-bold text-white h-full ">
+            <Button className=" font-bold text-white ">
               <FaSearch
                 className=" size-4 font-bold
          text-text-blackgrey mr-2 "

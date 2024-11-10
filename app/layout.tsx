@@ -8,6 +8,7 @@ import { getAgent } from "@/lib/getAgent";
 import { getUserRole } from "@/lib/getUserRole";
 import { auth } from "@/auth";
 import { Footer } from "@/components/footer";
+import { getAgentId } from "@/lib/getAgentId";
 
 export const metadata: Metadata = {
   title: "Apartamenti",
@@ -19,15 +20,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session  = await auth()
   const user = await serverUser();
   const userRole = await getUserRole()
-  
+  const agentId = await getAgentId()
   return (
     <html lang="en">
       <body className={`antialiased`}>
         <QueryProvider>
-          <Navbar user={user} userRole = {userRole} />
+          <Navbar user={user} userRole = {userRole} agent={agentId} />
           {children}
          <Footer />
           <Toaster />

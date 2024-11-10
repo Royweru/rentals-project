@@ -17,9 +17,11 @@ import { useRouter } from "next/navigation";
 export const UserButton = ({
   user,
   isAgent,
+  agent
 }: {
   user: User;
   isAgent: boolean;
+  agent:{id:string|null}
 }) => {
   const fallbackInitial = user.name?.charAt(0).toUpperCase();
   const router = useRouter();
@@ -53,7 +55,7 @@ export const UserButton = ({
           <Button
             variant={"outline"}
             className=" flex  text-text-darkblue w-full gap-x-1 items-center justify-center"
-            // onClick={()=>router.push("/agent")} push to admin dashboard
+            onClick={()=>router.push(`/agent/${agent.id}/admin`)} 
           >
             <ContactRound className=" size-4" />
             Agent dashboard
