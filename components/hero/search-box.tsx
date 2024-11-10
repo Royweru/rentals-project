@@ -56,6 +56,9 @@ export const SearchBox = ({ types, categories, locations }: SearchBoxProps) => {
             onChange={(e) => setCategory(e.target.value)}
             className=" bg-transparent border border-b-2 relative w-full py-2 shadow-none focus:ring-0 focus:border-0 "
           >
+            <option value={''} selected>
+                  Choose category
+            </option>
             {categories?.map((category) => (
               <option value={category.id} key={category.id}>
                 {category.name}
@@ -70,6 +73,9 @@ export const SearchBox = ({ types, categories, locations }: SearchBoxProps) => {
             onChange={(e) => setLocation(e.target.value)}
             className=" bg-transparent border border-b-2 relative w-full py-2 shadow-none focus:ring-0 focus:border-0 "
           >
+              <option value={''} selected>
+                  Choose City
+            </option>
             {locations?.map((city) => (
               <option value={city.id} key={city.id}>
                 {city.county}, {city.city}
@@ -84,6 +90,9 @@ export const SearchBox = ({ types, categories, locations }: SearchBoxProps) => {
             onChange={(e) => setType(e.target.value)}
             className=" bg-transparent border border-b-2 relative w-full py-2 shadow-none focus:ring-0 focus:border-0 "
           >
+              <option value={''} selected>
+                 Choose popery type
+            </option>
             {types?.map((type) => (
               <option value={type.id} key={type.id}>
                 {type.name}

@@ -21,7 +21,7 @@ export default async function Home() {
    categories={categories}
    locations={locationsWithListings}
   />
-  <Cities />
+  <Cities locations={locationsWithListings} />
   <FeaturedListings listings={listings} />
  </>
   );

@@ -22,7 +22,7 @@ const BrowsePage = async({searchParams}:BrowsePageProps) => {
   const type = types?.find((type)=>type.id===searchParams.typeId)
   return (
     <main className=' h-full w-full'>
-     <div className=' relative h-full w-full space-y-3 flex flex-col lg:p-20 md:p-14 sm:p-10 p-8'>
+     <div className=' relative h-full w-full space-y-4 flex flex-col lg:p-20 md:p-14 sm:p-10 p-8'>
         <Filters 
          type={type?.name}
          category={category?.name}

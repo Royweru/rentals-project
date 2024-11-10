@@ -22,9 +22,9 @@ export const Navbar =  ({
   // Replace javascript:void(0) path with your path
   const navigation = [
       { title: "Home", path: "/" },
-      { title: "Properties", path: "/properties" },
+      { title: "Properties", path: "/browse" },
       { title: "Contact", path: "/contact" },
-      { title: "Contact", path: "/blog" },
+      { title: "Blog", path: "/blog" },
       
   ]
 
@@ -54,11 +54,11 @@ export const Navbar =  ({
       <nav ref={navRef} className={`bg-white w-full top-0 z-20 font-semibold ${isHidden && 'hidden'}`}>
           <div className="items-center px-4 max-w-screen-xl mx-auto md:px-8 lg:flex">
               <div className="flex items-center justify-between py-3 lg:py-4 lg:block">
-                    <a href="javascript:void(0)">
+                    <a href="/">
                         <img
-                            src="https://www.floatui.com/logo.svg" 
-                            width={120} 
-                            height={50}
+                            src="/logo.png" 
+                            width={50} 
+                            height={40}
                             alt="Float UI logo"
                         />
                     </a>
@@ -83,7 +83,7 @@ export const Navbar =  ({
               <div className={`flex-1 justify-between flex-row-reverse lg:overflow-visible lg:flex lg:pb-0 lg:pr-0 lg:h-auto ${ state ? 'h-screen pb-20 overflow-auto pr-4' : 'hidden'}`}>
                     <div>
                         {user ?(
-                            <div className=' items-center justify-center'>
+                            <div className='flex items-center justify-center'>
                                 <UserButton 
                                  user={user}
                                  isAgent = {isAgent}

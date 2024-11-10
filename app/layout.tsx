@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { getAgent } from "@/lib/getAgent";
 import { getUserRole } from "@/lib/getUserRole";
 import { auth } from "@/auth";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Apartamenti",
@@ -28,6 +29,7 @@ export default async function RootLayout({
         <QueryProvider>
           <Navbar user={user} userRole = {userRole} />
           {children}
+         <Footer />
           <Toaster />
         </QueryProvider>
       </body>
