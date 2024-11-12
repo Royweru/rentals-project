@@ -1,10 +1,10 @@
 import { getAgentListings } from '@/actions/getAgentListings'
 import { Button } from '@/components/ui/button'
 import { EnquiryBox } from '@/features/enquiries/components/enquiry-box'
-import { getAgentbyId } from '@/lib/getAgent'
+
 import { getAgentId } from '@/lib/getAgentId'
 import React from 'react'
-import { string } from 'zod'
+
 
 const EnquiriesPage =async ({
     params
