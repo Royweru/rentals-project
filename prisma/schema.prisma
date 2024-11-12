@@ -31,7 +31,8 @@ model User {
   role           UserRole  @default(USER)
   image          String?
   accounts Account[]
-
+  
+  enquiries Enquiry[]
   @@map("users")
 }
 
@@ -119,7 +120,7 @@ model Listing{
  
   area Int
  
-  
+  enquiries Enquiry[]
 }
 
 model Amenity{
@@ -129,4 +130,14 @@ model Amenity{
 
   label String
   
+}
+
+model Enquiry{
+  id String @id @default(uuid())
+
+  listingId String
+  listing Listing @relation(fields: [listingId],references: [id],onDelete: Cascade)
+
+  userId String
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
 }

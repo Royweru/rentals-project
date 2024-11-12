@@ -3,10 +3,12 @@ import { redirect } from "next/navigation";
 import { serverUser } from "@/lib/serveruser";
 import { getAgent } from "@/lib/getAgent";
 import { Button } from "@/components/ui/button";
+import { AgentDashboardNav } from "@/features/agent/_components/agent-dashboard-nav";
+import { Sidebar } from "@/features/agent/_components/sibebar";
 const AgentAdminDashboard = async ({
-    children
-}:{
-  children:React.ReactNode
+  children,
+}: {
+  children: React.ReactNode;
 }) => {
   const user = await serverUser();
   if (!user) return redirect("/auth");
@@ -33,10 +35,10 @@ const AgentAdminDashboard = async ({
     );
   }
   return (
-    <div className=" min-h-screen bg-bg-secondary w-full">
+    <div className=" min-h-screen bg-bg-secondary w-full lg:p-20 md:p-16 p-8">
         {children}
     </div>
-  )
+  );
 };
 
 export default AgentAdminDashboard;

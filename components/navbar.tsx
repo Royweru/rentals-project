@@ -51,7 +51,7 @@ export const Navbar =  ({
     }, [state])
     
 
-    const isHidden = pathName ==="/auth"||pathName === "/admin"|| pathName ==="/agent/new"||pathName ==="/listing/new"
+    const isHidden = pathName ==="/auth"||pathName === "/admin"|| pathName ==="/agent/new"||pathName ==="/listing/new"||pathName ==="/agent/(.*)"
     const isAgent = userRole ===UserRole.AGENT
 
   return (

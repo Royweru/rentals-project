@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useCreateListing } from "../api/uses-create-listing";
+import { useCreateListing } from "../api/use-create-listing";
 import {
   Card,
   CardContent,
@@ -35,6 +35,7 @@ import { ListingHeader } from "./listing-header";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/image-upload";
 import { useRouter } from "next/navigation";
+import { getAgentId } from "@/lib/getAgentId";
 interface CreateListingClientProps {
   categories: Category[] | null;
   types: Type[] | null;
@@ -48,6 +49,7 @@ export const CreateListingClient = ({
   locations,
 }: CreateListingClientProps) => {
   const router = useRouter()
+  const agentId = getAgentId()
   const { mutate, isPending } = useCreateListing();
   const form = useForm<z.infer<typeof CreateListingSchema>>({
     resolver: zodResolver(CreateListingSchema),
@@ -71,7 +73,7 @@ export const CreateListingClient = ({
     },{
       onSuccess(){
         form.reset()
-        router.push("/")
+        router.push(`/agent/${agentId}/admin`)
         //Add functonality to redirect to agent dashboard
       }
     });

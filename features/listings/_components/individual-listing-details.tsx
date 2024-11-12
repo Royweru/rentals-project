@@ -1,3 +1,4 @@
+"use client"
 import { Agent, Amenity, Listing, Type } from '@prisma/client'
 import React from 'react'
 import { IndividualListingHeader } from './individual-listing-header'
@@ -5,6 +6,7 @@ import { IndividualListingProperties } from './inidividual-listing-properties'
 import { IndividualListingAmenities } from './inidividual-listing-amenities'
 import { IndividualListingPricing } from './individual-listing-pricing'
 import { Button } from '@/components/ui/button'
+import { useCreateEnquiry } from '@/features/enquiries/api/use-create-enquiry'
 
 interface IndividualListingDetailsProps{
     listing:(Listing
@@ -16,7 +18,12 @@ interface IndividualListingDetailsProps{
     )
 }
 export const IndividualListingDetails = ({listing}:IndividualListingDetailsProps) => {
-
+   const {mutate,isPending} =useCreateEnquiry()
+   const onSubmit = ()=>{
+    mutate({
+      json:{listingId:listing.id}
+    })
+   }
   return (
     <div  className=' w-full relative h-full lg:py-8 md:py-6 py-0'>
         <div className=' flex flex-col space-y-4'>
@@ -38,6 +45,7 @@ export const IndividualListingDetails = ({listing}:IndividualListingDetailsProps
           <Button 
            size={"lg"}
            className=' text-white font-bold'
+           onClick={onSubmit}
           >
               Reach out to Agent
           </Button>

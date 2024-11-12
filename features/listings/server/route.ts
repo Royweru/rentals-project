@@ -7,6 +7,27 @@ import { getAgent } from "@/lib/getAgent";
 import { z } from "zod";
 
 const app = new Hono()
+.delete('/:listingId',
+  async(c)=>{
+    const {listingId} = c.req.param()
+
+    const user = await serverUser();
+
+    if (!user) return c.json({ error: "Unauthorized" }, 401);
+    const author = await getAgent(user.id)
+    if(!author){
+       return c.json({errror:"You are not an agent!"},400)
+    }
+    
+    const res = await db.listing.delete({
+      where:{
+        id:listingId
+      }
+    })
+
+    return c.json({data:{id:res.id}},200)
+  }
+)
 .get("/",
   zValidator("query",z.object({
     categoryId:z.string().optional(),
