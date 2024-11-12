@@ -26,7 +26,7 @@ export const Register = async (vals: z.infer<typeof SignupSchema>) => {
       email,
       name,
       hashedPassword,
-      phoneNumber:phoneNumber
+      phoneNumber:phoneNumber?phoneNumber:0
     },
   });
 

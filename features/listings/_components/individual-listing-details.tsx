@@ -1,5 +1,5 @@
 "use client"
-import { Agent, Amenity, Listing, Type } from '@prisma/client'
+import { Agent, Amenity, Listing, Type, User } from '@prisma/client'
 import React from 'react'
 import { IndividualListingHeader } from './individual-listing-header'
 import { IndividualListingProperties } from './inidividual-listing-properties'
@@ -15,7 +15,8 @@ interface IndividualListingDetailsProps{
              agent:Agent,
              type:Type
         }
-    )
+      
+    ),
 }
 export const IndividualListingDetails = ({listing}:IndividualListingDetailsProps) => {
    const {mutate,isPending} =useCreateEnquiry()
@@ -46,8 +47,9 @@ export const IndividualListingDetails = ({listing}:IndividualListingDetailsProps
            size={"lg"}
            className=' text-white font-bold'
            onClick={onSubmit}
+           disabled={isPending}
           >
-              Reach out to Agent
+              Make enquiry
           </Button>
           </div>
          

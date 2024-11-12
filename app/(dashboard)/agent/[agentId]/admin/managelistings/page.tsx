@@ -11,7 +11,7 @@ const ManageListingsPage =async ({params}:{
     const agent = await getAgentbyId(params.agentId)
   return (
     <main className=' h-full w-full space-y-4'>
-        <AgentDashboardNav  agencyName={agent?.agentName||"Agent"}/>
+        <AgentDashboardNav  agencyName={agent?.agentName||"Agent"} agentAvatar={agent?.imageUrl} agentId={agent?.id}/>
      <div className=' relative h-full w-full space-y-4 flex flex-col lg:p-20 md:p-14 sm:p-10 p-8'>
         <ManageListingsPageClient  data ={data}/>
         </div>
