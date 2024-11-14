@@ -37,11 +37,9 @@ const EnquiriesPage =async ({
    </div>
    <div className=' w-full relative flex flex-col space-y-3'>
    {agentData?.listings.map((listing)=>(listing.enquiries.map((enquiry)=>(
-        <div className=' font-semibold text-xl text-text-black'
-        key={enquiry.id}
-        >
-           <EnquiryBox  data={enquiry}/>
-        </div>
+     
+           <EnquiryBox key={enquiry.id} data={enquiry}/>
+       
     ))))}
    </div>
     </div>
