@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { Error } from "./Error";
 import { Success } from "./Success";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const SignInCard = ({
   setState,
@@ -36,8 +37,9 @@ export const SignInCard = ({
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [isErr, setIsErr] = useState<string | undefined>("");
+  const [isErr, setIsErr] = useState("");
   // const [isSuccess, setIsSuccess] = useState<string | undefined | null>("");
+  
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -46,17 +48,34 @@ export const SignInCard = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsErr("");
+    
+    try {
+      startTransition(async () => {
+        // Show loading state while logging in
+        const data = await Login(values);
+        
+        if (data?.error) {
+          setIsErr(data.error);
+          return;
+        }
 
-    startTransition(() => {
-      Login(values).then((data) => {
-        setIsErr(data?.error);
-
+        // Success handling
         form.reset();
         router.refresh();
+        
+        // Optional: Redirect to dashboard or home page
+        router.push("/dashboard");
+        
+        // Optional: Show success toast/notification
+        toast.success("Successfully logged in!");
       });
-    });
+    } catch (error) {
+      // Handle unexpected errors
+      setIsErr("An unexpected error occurred. Please try again.");
+      console.error("Login error:", error);
+    }
   };
   return (
     <Card className="   w-full sm:mx-0 mx-3 sm:w-[350px] md:w-[500px] ">
